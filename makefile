@@ -1,13 +1,16 @@
 # makefile
 
 install:
-	poetry install
+	python3 -m poetry install
+
+diff:
+	python3 -m poetry run gendiff
 	
 build:
-	poetry build
+	python3 -m poetry build
 	
 publish:
-	poetry publish --dry-run
+	python3 -m poetry publish --dry-run
 	
 package-install:
 	python3 -m pip install --user dist/*.whl
@@ -16,7 +19,4 @@ package-install-reinstall:
 	python3 -m pip install --user dist/*.whl --force-reinstall
 
 lint:
-	poetry run flake8 gendiff
-
-gendiff:
-	poetry run gendiff
+	python3 -m poetry run flake8 gendiff
