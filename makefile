@@ -20,3 +20,6 @@ package-install-reinstall:
 
 lint:
 	python3 -m poetry run flake8 gendiff
+
+test:
+	python3 -m poetry run pytest -vv
