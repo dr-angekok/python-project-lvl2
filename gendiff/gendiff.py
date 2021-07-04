@@ -31,8 +31,8 @@ def get_diff(source1, source2):
         if source1[key] == source2[key]:
             source_diff.append(form(' ', key, source1[key]))
         else:
-            source_diff.append(form('+', key, source2[key]))
             source_diff.append(form('-', key, source1[key]))
+            source_diff.append(form('+', key, source2[key]))
 
     source_diff.sort(key=sort_by_alphabet)
     diff_string = '\n'.join(source_diff)
@@ -51,7 +51,7 @@ def form(sign, value1, value2):
     Returns:
         str: formated string
     """
-    return ' {0} {1}: {2}'.format(sign, value1, value2)
+    return '  {0} {1}: {2}'.format(sign, value1, value2)
 
 
 def sort_by_alphabet(input_str):
