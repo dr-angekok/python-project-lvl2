@@ -1,18 +1,20 @@
 """File diff make programm."""
 
 import json
+import yaml
+from os import path
 
 
-def load_file(filename):
-    """Load file.
+def get_parse_metod(source):
+    """Get parse metod.
 
     Args:
-        filename (str): path to load file
+        path (str): path to the file o other source
 
     Returns:
-        dict:
+        str: extension without period
     """
-    return json.load(open(filename))
+    return path.splitext(source)[1][1:]
 
 
 def get_diff(source1, source2):
@@ -34,7 +36,7 @@ def get_diff(source1, source2):
             source_diff.append(form('-', key, source1[key]))
             source_diff.append(form('+', key, source2[key]))
 
-    source_diff.sort(key=sort_by_alphabet)
+    source_diff.sort(key=lambda string: string[3:5])
     diff_string = '\n'.join(source_diff)
 
     return '{{\n{0}\n}}'.format(diff_string)
@@ -54,18 +56,6 @@ def form(sign, value1, value2):
     return '  {0} {1}: {2}'.format(sign, value1, value2)
 
 
-def sort_by_alphabet(input_str):
-    """Alphabetical sort of input_str by 4 sign.
-
-    Args:
-        input_str (str): import string
-
-    Returns:
-        str: 4 sing
-    """
-    return input_str[3:5]
-
-
 def generate_diff(file_path1, file_path2):
     """Make difference from tow files.
 
@@ -76,6 +66,11 @@ def generate_diff(file_path1, file_path2):
     Returns:
         str: formated difference output
     """
-    file1 = load_file(file_path1)
-    file2 = load_file(file_path2)
-    return get_diff(file1, file2)
+    parsers = {
+        'json': lambda par: json.load(open(par)),
+        'yaml': lambda par: yaml.safe_load(open(par)),
+        'yml': lambda par: yaml.safe_load(open(par))
+    }
+    parsed_data1 = parsers[get_parse_metod(file_path1)](file_path1)
+    parsed_data2 = parsers[get_parse_metod(file_path2)](file_path2)
+    return get_diff(parsed_data1, parsed_data2)
