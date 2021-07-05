@@ -1,5 +1,6 @@
 # -*- coding:utf-8 -*-
 """Users tests."""
+from os import popen
 
 from gendiff.gendiff import generate_diff
 
@@ -16,3 +17,7 @@ def test_full_load_yaml():
 def test_full_load_yml():
     assert generate_diff('tests/fixtures/file1.yml', 'tests/fixtures/file2.yml') == str(simple_out)
 
+
+def test_gendiff_cli():
+    result = popen('poetry run gendiff tests/fixtures/file1.yaml tests/fixtures/file2.yaml').read()
+    assert str(result[:-1]) == str(simple_out)
