@@ -25,21 +25,36 @@ def get_diff(source1, source2):
         source2 (dict): source (dict)
 
     Returns:
-        str: difference string
+        str: difference dict {(diff, key): value}
     """
-    source_diff = [form('-', key, source1[key]) for key in source1.keys() - source2.keys()] # noqa E501
-    source_diff += [form('+', key, source2[key]) for key in source2.keys() - source1.keys()] # noqa E501
-    for key in source1.keys() & source2.keys():
-        if source1[key] == source2[key]:
-            source_diff.append(form(' ', key, source1[key]))
+    difference = {}
+
+    sub_keys = (source1.keys() - source2.keys())
+    for key in sub_keys:
+        if type(source1[key]) == dict:
+            difference[('-', key)] = get_diff(source1[key], source1[key])
         else:
-            source_diff.append(form('-', key, source1[key]))
-            source_diff.append(form('+', key, source2[key]))
+            difference[('-', key)] = source1[key]
 
-    source_diff.sort(key=lambda string: string[3:5])
-    diff_string = '\n'.join(source_diff)
+    sub_keys_rev = (source2.keys() - source1.keys())
+    for key in sub_keys_rev:
+        if type(source2[key]) == dict:
+            difference[('+', key)] = get_diff(source2[key], source2[key])
+        else:
+            difference[('+', key)] = source2[key]
 
-    return '{{\n{0}\n}}'.format(diff_string)
+    same_keys = (source1.keys() & source2.keys())
+    for key in same_keys:
+        if source1[key] == source2[key] and type(source1[key]) == dict:
+            difference[(' ', key)] = get_diff(source1[key], source2[key])
+        elif source1[key] == source2[key] and type(source1[key]) != dict:
+            difference[(' ', key)] = source1[key]
+        elif type(source1[key]) == dict and type(source2[key]) == dict:
+            difference[(' ', key)] = get_diff(source1[key], source2[key])
+        else:
+            difference[('+', key)] = source2[key]
+            difference[('-', key)] = source1[key]
+    return difference
 
 
 def form(sign, value1, value2):
