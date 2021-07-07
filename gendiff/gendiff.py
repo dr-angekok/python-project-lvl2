@@ -31,25 +31,25 @@ def get_diff(source1, source2):
 
     sub_keys = (source1.keys() - source2.keys())
     for key in sub_keys:
-        if type(source1[key]) == dict:
+        if isinstance(source1[key], dict):
             difference[('-', key)] = get_diff(source1[key], source1[key])
         else:
             difference[('-', key)] = source1[key]
 
     sub_keys_rev = (source2.keys() - source1.keys())
     for key in sub_keys_rev:
-        if type(source2[key]) == dict:
+        if isinstance(source2[key], dict):
             difference[('+', key)] = get_diff(source2[key], source2[key])
         else:
             difference[('+', key)] = source2[key]
 
     same_keys = (source1.keys() & source2.keys())
     for key in same_keys:
-        if source1[key] == source2[key] and type(source1[key]) == dict:
+        if source1[key] == source2[key] and isinstance(source1[key], dict):
             difference[(' ', key)] = get_diff(source1[key], source2[key])
-        elif source1[key] == source2[key] and type(source1[key]) != dict:
+        elif source1[key] == source2[key] and not isinstance(source1[key], dict):
             difference[(' ', key)] = source1[key]
-        elif type(source1[key]) == dict and type(source2[key]) == dict:
+        elif isinstance(source1[key], dict) and isinstance(source2[key], dict):
             difference[(' ', key)] = get_diff(source1[key], source2[key])
         else:
             difference[('+', key)] = source2[key]
