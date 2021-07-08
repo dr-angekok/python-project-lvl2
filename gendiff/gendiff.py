@@ -1,15 +1,27 @@
 """File diff make programm."""
 
 import json
-import yaml
 from os import path
+
+import yaml
+
+
+STATES = {
+    'children': '',
+    'changed': '+',
+    'unchanged': ' ',
+    'new': '+',
+    'old': '-',
+    'add': '+',
+    'del': '-',
+}
 
 
 def get_parse_metod(source):
     """Get parse metod.
 
     Args:
-        path (str): path to the file o other source
+        source (str): path to the file o other source
 
     Returns:
         str: extension without period
@@ -27,48 +39,25 @@ def get_diff(source1, source2):
     Returns:
         str: difference dict {(diff, key): value}
     """
-    difference = {}
+    difference = []
+    all_keys = sorted(source1.keys() | source2.keys())
 
-    sub_keys = (source1.keys() - source2.keys())
-    for key in sub_keys:
-        if isinstance(source1[key], dict):
-            difference[('-', key)] = get_diff(source1[key], source1[key])
-        else:
-            difference[('-', key)] = source1[key]
+    for key in all_keys:
+        value1 = source1.get(key)
+        value2 = source2.get(key)
 
-    sub_keys_rev = (source2.keys() - source1.keys())
-    for key in sub_keys_rev:
-        if isinstance(source2[key], dict):
-            difference[('+', key)] = get_diff(source2[key], source2[key])
+        if value1 == value2:
+            difference.append((STATES['unchanged'], key, value1))
+        elif key not in source2:
+            difference.append((STATES['del'], key, value1))
+        elif key not in source1:
+            difference.append((STATES['add'], key, value2))
+        elif isinstance(value1, dict) and isinstance(value2, dict):
+            difference.append((STATES['changed'], key, get_diff(value1, value2)))  # noqa E501
         else:
-            difference[('+', key)] = source2[key]
-
-    same_keys = (source1.keys() & source2.keys())
-    for key in same_keys:
-        if source1[key] == source2[key] and isinstance(source1[key], dict):
-            difference[(' ', key)] = get_diff(source1[key], source2[key])
-        elif source1[key] == source2[key] and not isinstance(source1[key], dict):
-            difference[(' ', key)] = source1[key]
-        elif isinstance(source1[key], dict) and isinstance(source2[key], dict):
-            difference[(' ', key)] = get_diff(source1[key], source2[key])
-        else:
-            difference[('+', key)] = source2[key]
-            difference[('-', key)] = source1[key]
+            difference.append((STATES['old'], key, value1))
+            difference.append((STATES['new'], key, value2))
     return difference
-
-
-def form(sign, value1, value2):
-    """Format a string to a specific format.
-
-    Args:
-        sign (str): sign of differec (' ', '+', '-')
-        value1 (str): key
-        value2 (str): value
-
-    Returns:
-        str: formated string
-    """
-    return '  {0} {1}: {2}'.format(sign, value1, value2)
 
 
 def generate_diff(file_path1, file_path2):
