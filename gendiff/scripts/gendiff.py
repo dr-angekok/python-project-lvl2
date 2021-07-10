@@ -7,8 +7,8 @@ from gendiff.gendiff import generate_diff
 
 def main():
     """Diff make programm."""
-    first_file, second_file, _ = arg_parser()
-    print(generate_diff(first_file, second_file))
+    first_file, second_file, command = arg_parser()
+    print(generate_diff(first_file, second_file, command))
 
 
 if __name__ == '__main__':

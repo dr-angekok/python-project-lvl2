@@ -2,13 +2,12 @@
 
 import json
 from os import path
+from gendiff.formats.stylish import make_stylish
 
 import yaml
 
-
 STATES = {
-    'children': '',
-    'changed': '+',
+    'changed': ' ',
     'unchanged': ' ',
     'new': '+',
     'old': '-',
@@ -48,10 +47,10 @@ def get_diff(source1, source2):
 
         if value1 == value2:
             difference.append((STATES['unchanged'], key, value1))
-        elif key not in source2:
-            difference.append((STATES['del'], key, value1))
         elif key not in source1:
             difference.append((STATES['add'], key, value2))
+        elif key not in source2:
+            difference.append((STATES['del'], key, value1))
         elif isinstance(value1, dict) and isinstance(value2, dict):
             difference.append((STATES['changed'], key, get_diff(value1, value2)))  # noqa E501
         else:
@@ -60,7 +59,7 @@ def get_diff(source1, source2):
     return difference
 
 
-def generate_diff(file_path1, file_path2):
+def generate_diff(file_path1, file_path2, form='stylish'):
     """Make difference from tow files.
 
     Args:
@@ -77,4 +76,13 @@ def generate_diff(file_path1, file_path2):
     }
     parsed_data1 = parsers[get_parse_metod(file_path1)](file_path1)
     parsed_data2 = parsers[get_parse_metod(file_path2)](file_path2)
-    return get_diff(parsed_data1, parsed_data2)
+
+    if form is None:
+        form = 'stylish'
+    formaters = {
+        'stylish': make_stylish,
+    }
+    if form not in formaters.keys():
+        return 'Wrong out format type!'
+
+    return formaters[form](get_diff(parsed_data1, parsed_data2))
