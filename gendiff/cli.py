@@ -16,6 +16,10 @@ def arg_parser():
     parser = argparse.ArgumentParser(description='Generate diff of two files')
     parser.add_argument('first_file', metavar='file1.[json/yaml]', type=str)
     parser.add_argument('second_file', metavar='file2.[json/yaml]', type=str)
-    parser.add_argument('-f', '--format', help=FORMAT_HELP_STRING)
+    parser.add_argument(
+        '-f', '--format',
+        default='stylish',
+        help=FORMAT_HELP_STRING
+        )
     arguments = parser.parse_args()
     return arguments.first_file, arguments.second_file, arguments.format
