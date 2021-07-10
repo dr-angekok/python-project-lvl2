@@ -10,9 +10,9 @@ complex_out = ''.join(open('tests/fixtures/grand_out.txt', 'r'))
 
 def test_gendiff_cli_flat():
     result = popen('poetry run gendiff tests/fixtures/file1.yaml tests/fixtures/file2.yaml').read()
-    assert str(result[:-1]) == str(simple_out)
+    assert str(result) == str(simple_out)
 
 
 def test_grandiff_cli_flat():
     result = popen('poetry run gendiff tests/fixtures/grand_file1.yaml tests/fixtures/grand_file2.yaml').read()
-    assert str(result[:-1]) == str(complex_out)
+    assert str(result) == str(complex_out)
