@@ -3,17 +3,67 @@
 import json
 from os import path
 from gendiff.formats.stylish import make_stylish
+from gendiff.formats.plain import make_plain
 
 import yaml
 
+
 STATES = {
-    'changed': ' ',
-    'unchanged': ' ',
-    'new': '+',
-    'old': '-',
+    'unchanged': 'non_touched',
+    'new': 'new',
+    'old': 'old',
     'add': '+',
     'del': '-',
+    'child': 'line',
 }
+
+
+def get_key(line):
+    """Provides a key from a structure.
+
+    Args:
+        line (diff line): a line of diffs
+
+    Returns:
+        any: key of diff
+    """
+    return line[1]
+
+
+def get_value(line):
+    """Provides a value from a structure.
+
+    Args:
+        line (diff line): a line of diffs
+
+    Returns:
+        any: value of diff
+    """
+    return line[2]
+
+
+def get_state(line):
+    """Provides a value from a structure.
+
+    Args:
+        line (diff line): a line of diffs
+
+    Returns:
+        any: value of diff
+    """
+    return line[0]
+
+
+def is_child(value):
+    """Pridicate fo node.
+
+    Args:
+        value (value): value of structure
+
+    Returns:
+        bool: True or False
+    """
+    return isinstance(value, list)
 
 
 def get_parse_metod(source):
@@ -52,7 +102,7 @@ def get_diff(source1, source2):
         elif key not in source2:
             difference.append((STATES['del'], key, value1))
         elif isinstance(value1, dict) and isinstance(value2, dict):
-            difference.append((STATES['changed'], key, get_diff(value1, value2)))  # noqa E501
+            difference.append((STATES['child'], key, get_diff(value1, value2)))  # noqa E501
         else:
             difference.append((STATES['old'], key, value1))
             difference.append((STATES['new'], key, value2))
@@ -81,6 +131,7 @@ def generate_diff(file_path1, file_path2, form='stylish'):
         form = 'stylish'
     formaters = {
         'stylish': make_stylish,
+        'plain': make_plain,
     }
     if form not in formaters.keys():
         return 'Wrong out format type!'
