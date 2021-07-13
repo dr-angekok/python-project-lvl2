@@ -17,3 +17,6 @@ demo of gendiff to compare two complex .json
 
 demo of gendiff to compare two complex files to plain format
 [![asciicast](https://asciinema.org/a/NHo2RqbwKGroHQUFjkKQagEpS.svg)](https://asciinema.org/a/NHo2RqbwKGroHQUFjkKQagEpS)
+
+demo of gendiff to compare two complex files to json out
+[![asciicast](https://asciinema.org/a/rrjmrePF3geb77GayqB30lqDn.svg)](https://asciinema.org/a/rrjmrePF3geb77GayqB30lqDn)
