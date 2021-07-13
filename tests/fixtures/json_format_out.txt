@@ -1,0 +1,74 @@
+{
+    "common": {
+        "folded": {
+            "common.follow": {
+                "added": false
+            },
+            "common.setting1": {
+                "not_toched": "Value 1"
+            },
+            "common.setting2": {
+                "removed": 200
+            },
+            "common.setting3": {
+                "new": null
+            },
+            "common.setting4": {
+                "added": "blah blah"
+            },
+            "common.setting5": {
+                "added": {
+                    "key5": "value5"
+                }
+            },
+            "common.setting6": {
+                "folded": {
+                    "common.setting6.doge": {
+                        "folded": {
+                            "common.setting6.doge.wow": {
+                                "new": "so much"
+                            }
+                        }
+                    },
+                    "common.setting6.key": {
+                        "not_toched": "value"
+                    },
+                    "common.setting6.ops": {
+                        "added": "vops"
+                    }
+                }
+            }
+        }
+    },
+    "group1": {
+        "folded": {
+            "group1.baz": {
+                "new": "bars"
+            },
+            "group1.foo": {
+                "not_toched": "bar"
+            },
+            "group1.nest": {
+                "new": "str"
+            }
+        }
+    },
+    "group2": {
+        "removed": {
+            "abc": 12345,
+            "deep": {
+                "id": 45
+            }
+        }
+    },
+    "group3": {
+        "added": {
+            "deep": {
+                "id": {
+                    "number": 45
+                }
+            },
+            "fee": 100500
+        }
+    }
+}

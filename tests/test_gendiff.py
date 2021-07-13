@@ -6,6 +6,7 @@ from os import popen
 simple_out = ''.join(open('tests/fixtures/json_out.txt', 'r'))
 complex_out = ''.join(open('tests/fixtures/grand_out.txt', 'r'))
 plain_out = ''.join(open('tests/fixtures/plain_out.txt', 'r'))
+json_out = ''.join(open('tests/fixtures/json_format_out.txt', 'r'))
 
 
 def test_gendiff_cli_flat():
@@ -21,3 +22,8 @@ def test_grandiff_cli_flat():
 def test_grandiff_cli_plain():
     result = popen('poetry run gendiff tests/fixtures/grand_file1.json tests/fixtures/grand_file2.json -f plain').read()
     assert str(result) == str(plain_out)
+
+
+def test_json_out():
+    result = popen('poetry run gendiff tests/fixtures/grand_file1.json tests/fixtures/grand_file2.json -f json').read()
+    assert str(result) == str(json_out)
