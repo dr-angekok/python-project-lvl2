@@ -2,7 +2,7 @@
 """Diff make programm."""
 
 from gendiff.cli import arg_parser
-from gendiff.gendiff import generate_diff
+from gendiff.generate_diff import generate_diff
 
 
 def main():

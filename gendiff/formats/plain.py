@@ -1,7 +1,7 @@
 # -*- coding: utf-8 -*-
 """Plain formater fo diffs"""
 
-from gendiff import gendiff
+from gendiff import generate_diff
 
 
 def make_plain(diff):
@@ -31,9 +31,9 @@ def generate_plain_string(diffs, forward_line=''):
     """
     output_string = ''
     for line in diffs:
-        state = gendiff.get_state(line)
-        key = gendiff.get_key(line)
-        diff_value = gendiff.get_value(line)
+        state = generate_diff.get_state(line)
+        key = generate_diff.get_key(line)
+        diff_value = generate_diff.get_value(line)
         if forward_line:
             head_str = '{0}.{1}'.format(forward_line, key)
         else:
@@ -52,14 +52,14 @@ def generate_plain_string(diffs, forward_line=''):
         else:
             val_str = '[complex value]'
 
-        if state == gendiff.STATES['child']:
+        if state == generate_diff.STATES['child']:
             output_string += generate_plain_string(diff_value, head_str)
-        elif state == gendiff.STATES['old']:
+        elif state == generate_diff.STATES['old']:
             output_string += '{0} updated. From {1} to '.format(key_str, val_str)
-        elif state == gendiff.STATES['new']:
+        elif state == generate_diff.STATES['new']:
             output_string += '{0}\n'.format(val_str)
-        elif state == gendiff.STATES['add']:
+        elif state == generate_diff.STATES['add']:
             output_string += '{0} added with value: {1}\n'.format(key_str, val_str)
-        elif state == gendiff.STATES['del']:
+        elif state == generate_diff.STATES['del']:
             output_string += '{0} removed\n'.format(key_str)
     return output_string
