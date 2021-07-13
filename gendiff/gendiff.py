@@ -4,6 +4,7 @@ import json
 from os import path
 from gendiff.formats.stylish import make_stylish
 from gendiff.formats.plain import make_plain
+from gendiff.formats.json_out import make_json_out
 
 import yaml
 
@@ -132,6 +133,7 @@ def generate_diff(file_path1, file_path2, form='stylish'):
     formaters = {
         'stylish': make_stylish,
         'plain': make_plain,
+        'json': make_json_out,
     }
     if form not in formaters.keys():
         return 'Wrong out format type!'
