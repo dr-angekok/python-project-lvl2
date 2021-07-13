@@ -2,7 +2,7 @@
 """Json out formatter."""
 from json import dumps
 
-from gendiff import generate_diff
+from gendiff import gendiff
 
 
 def translate_state(in_states):
@@ -32,23 +32,23 @@ def formatting(difference, parent=None):
     """Create a dictionary.
 
     Args:
-        difference: diff from generate_diff module or line
+        difference: diff from gendiff module or line
         parent: head befor line
 
     Returns:
         result(dict): output dict
     """
-    states = translate_state(generate_diff.STATES)
+    states = translate_state(gendiff.STATES)
     diffs_dict = {}
     for line in difference:
-        state = states[generate_diff.get_state(line)]
-        key = generate_diff.get_key(line)
-        diff_value = generate_diff.get_value(line)
+        state = states[gendiff.get_state(line)]
+        key = gendiff.get_key(line)
+        diff_value = gendiff.get_value(line)
         if parent is None:
             current_key = str(key)
         else:
             current_key = '{0}.{1}'.format(parent, key)
-        if generate_diff.is_child(diff_value):
+        if gendiff.is_child(diff_value):
             formated_value = formatting(diff_value, current_key)
             diffs_dict[current_key] = {state: formated_value}
         else:
@@ -60,7 +60,7 @@ def make_json_out(diff):
     """Make json formated output.
 
     Args:
-        diff: diffs frome generate_diff module.
+        diff: diffs frome gendiff module.
 
     Returns:
         json_output(str): Json output
