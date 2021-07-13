@@ -12,5 +12,8 @@ demo of gendiff to compare two flat .json
 demo of gendiff to compare two flat .yaml
 [![asciicast](https://asciinema.org/a/k7G3bhPQ26b6ElxuUHM4PcFsH.svg)](https://asciinema.org/a/k7G3bhPQ26b6ElxuUHM4PcFsH)
 
-demo of gediff to compare two complex .json
+demo of gendiff to compare two complex .json
 [![asciicast](https://asciinema.org/a/XzFbK0G75PK7Yul8EFtHA8jpr.svg)](https://asciinema.org/a/XzFbK0G75PK7Yul8EFtHA8jpr)
+
+demo of gendiff to compare two complex files to plain format
+[![asciicast](https://asciinema.org/a/NHo2RqbwKGroHQUFjkKQagEpS.svg)](https://asciinema.org/a/NHo2RqbwKGroHQUFjkKQagEpS)
