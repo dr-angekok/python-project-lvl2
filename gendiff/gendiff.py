@@ -55,7 +55,7 @@ def get_state(line):
 
 
 def is_child(value):
-    """Pridicate fo node.
+    """Pridicate fore node.
 
     Args:
         value (value): value of structure
