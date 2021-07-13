@@ -12,8 +12,7 @@ def translate_state(in_states):
         'old': '-',
         'add': '+',
         'del': '-',
-        'child': ' ',
-        }
+        'child': ' '}
     translated_state = {}
     for key in STATES_TO_STR:
         translated_state[in_states[key]] = STATES_TO_STR[key]
@@ -74,7 +73,6 @@ def make_stylish(difference, level=0):
             paragraph,
             state,
             key,
-            next_string,
-            )
+            next_string)
     output_str += '{0}}}'.format(paragraph)
     return output_str

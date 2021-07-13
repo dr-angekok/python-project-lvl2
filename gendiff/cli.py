@@ -19,7 +19,6 @@ def arg_parser():
     parser.add_argument(
         '-f', '--format',
         default='stylish',
-        help=FORMAT_HELP_STRING
-        )
+        help=FORMAT_HELP_STRING)
     arguments = parser.parse_args()
     return arguments.first_file, arguments.second_file, arguments.format

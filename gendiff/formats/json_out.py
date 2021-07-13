@@ -20,8 +20,7 @@ def translate_state(in_states):
         'old': 'old',
         'add': 'added',
         'del': 'removed',
-        'child': 'folded',
-        }
+        'child': 'folded'}
     translated_state = {}
     for key in STATES_TO_STR:
         translated_state[in_states[key]] = STATES_TO_STR[key]
