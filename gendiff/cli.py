@@ -7,7 +7,7 @@ set format of output
 stylish -default"""
 
 
-def arg_parser():
+def parse_args():
     """Pars command line parameters.
 
     Returns:
