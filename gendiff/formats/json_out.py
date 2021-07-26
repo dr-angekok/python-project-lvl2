@@ -47,7 +47,7 @@ def formatting(difference, parent=None):
             current_key = str(key)
         else:
             current_key = '{0}.{1}'.format(parent, key)
-        if gendiff.is_child(diff_value):
+        if isinstance(diff_value, list):
             formated_value = formatting(diff_value, current_key)
             diffs_dict[current_key] = {state: formated_value}
         else:
