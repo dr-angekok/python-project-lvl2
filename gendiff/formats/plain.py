@@ -31,9 +31,9 @@ def generate_plain_string(diffs, forward_line=''):
     """
     output_string = ''
     for line in diffs:
-        state = gendiff.get_state(line)
-        key = gendiff.get_key(line)
-        diff_value = gendiff.get_value(line)
+        state = line[0]
+        key = line[1]
+        diff_value = line[2]
         if forward_line:
             head_str = '{0}.{1}'.format(forward_line, key)
         else:

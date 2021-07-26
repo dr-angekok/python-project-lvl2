@@ -40,9 +40,9 @@ def formatting(difference, parent=None):
     states = translate_state(gendiff.STATES)
     diffs_dict = {}
     for line in difference:
-        state = states[gendiff.get_state(line)]
-        key = gendiff.get_key(line)
-        diff_value = gendiff.get_value(line)
+        state = states[line[0]]
+        key = line[1]
+        diff_value = line[2]
         if parent is None:
             current_key = str(key)
         else:

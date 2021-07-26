@@ -62,10 +62,10 @@ def make_stylish(difference, level=0):
     states = translate_state(gendiff.STATES)
 
     for line in difference:
-        state = states[gendiff.get_state(line)]
-        key = gendiff.get_key(line)
-        diff_value = gendiff.get_value(line)
-        if gendiff.is_child(diff_value):
+        state = states[line[0]]
+        key = line[1]
+        diff_value = line[2]
+        if isinstance(diff_value, list):
             next_string = make_stylish(diff_value, level + 1)
         else:
             next_string = make_stilish_node(diff_value, paragraph + IDENT)

@@ -19,54 +19,6 @@ STATES = {
 }
 
 
-def get_key(line):
-    """Provides a key from a structure.
-
-    Args:
-        line (diff line): a line of diffs
-
-    Returns:
-        any: key of diff
-    """
-    return line[1]
-
-
-def get_value(line):
-    """Provides a value from a structure.
-
-    Args:
-        line (diff line): a line of diffs
-
-    Returns:
-        any: value of diff
-    """
-    return line[2]
-
-
-def get_state(line):
-    """Provides a value from a structure.
-
-    Args:
-        line (diff line): a line of diffs
-
-    Returns:
-        any: value of diff
-    """
-    return line[0]
-
-
-def is_child(value):
-    """Pridicate fore node.
-
-    Args:
-        value (value): value of structure
-
-    Returns:
-        bool: True or False
-    """
-    return isinstance(value, list)
-
-
 def get_parse_metod(source):
     """Get parse metod.
 
