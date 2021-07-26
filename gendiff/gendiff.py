@@ -95,6 +95,6 @@ def generate_diff(file_path1, file_path2, form='stylish'):
         'json': make_json_out,
     }
     if form not in formaters.keys():
-        return 'Wrong out format type!'
+        raise NotImplementedError('"{0}" is wrong out format type!'.format(form))
 
     return formaters[form](get_diff(parsed_data1, parsed_data2))
