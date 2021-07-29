@@ -4,6 +4,26 @@
 from gendiff import gendiff
 
 
+def translate_diff_value(diff_value):
+    """Translate values to human language
+
+    Args:
+        diff_value (str): some key value
+
+    Returns:
+        str: translated value
+    """
+    if isinstance(diff_value, bool):
+        return 'true' if diff_value else 'false'
+    elif diff_value is None:
+        return 'null'
+    elif isinstance(diff_value, str):
+        return "'{0}'".format(diff_value)
+    elif isinstance(diff_value, (int, float, complex)):
+        return str(diff_value)
+    return '[complex value]'
+
+
 def make_plain(diff):
     """Generate a plain format.
 
@@ -15,7 +35,7 @@ def make_plain(diff):
     """
     plaint_output = generate_plain_string(diff)
     if plaint_output:
-        return plaint_output[:-1]
+        return plaint_output
     return '{\n}'
 
 
@@ -29,8 +49,9 @@ def generate_plain_string(diffs, forward_line=''):
     Returns:
         str: formated output string.
     """
-    output_string = ''
-    for line in diffs:
+    output_string = []
+    iter_lines = iter(diffs)
+    for line in iter_lines:
         state = line[0]
         key = line[1]
         diff_value = line[2]
@@ -40,26 +61,15 @@ def generate_plain_string(diffs, forward_line=''):
             head_str = key
 
         key_str = "Property '{0}' was".format(head_str)
-
-        if isinstance(diff_value, bool):
-            val_str = 'true' if diff_value else 'false'
-        elif diff_value is None:
-            val_str = 'null'
-        elif isinstance(diff_value, str):
-            val_str = "'{0}'".format(diff_value)
-        elif isinstance(diff_value, (int, float, complex)):
-            val_str = str(diff_value)
-        else:
-            val_str = '[complex value]'
+        val_str = translate_diff_value(diff_value)
 
         if state == gendiff.STATES['child']:
-            output_string += generate_plain_string(diff_value, head_str)
+            output_string.append(generate_plain_string(diff_value, head_str))
         elif state == gendiff.STATES['old']:
-            output_string += '{0} updated. From {1} to '.format(key_str, val_str)
-        elif state == gendiff.STATES['new']:
-            output_string += '{0}\n'.format(val_str)
+            next_value_str = translate_diff_value(next(iter_lines)[2])
+            output_string.append('{0} updated. From {1} to {2}'.format(key_str, val_str, next_value_str))
         elif state == gendiff.STATES['add']:
-            output_string += '{0} added with value: {1}\n'.format(key_str, val_str)
+            output_string.append('{0} added with value: {1}'.format(key_str, val_str))
         elif state == gendiff.STATES['del']:
-            output_string += '{0} removed\n'.format(key_str)
-    return output_string
+            output_string.append('{0} removed'.format(key_str))
+    return '\n'.join(output_string)
