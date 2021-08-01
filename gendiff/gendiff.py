@@ -1,31 +1,8 @@
 """File diff make programm."""
 
-import json
-from os import path
-
-import yaml
-
-from gendiff.formats.formating import get_format
+from gendiff.formats.formating import make_formatted
 from gendiff.states import STATES
-
-
-def get_parse_metod(source):
-    """Get parse metod.
-
-    Args:
-        source (str): path to the file o other source
-
-    Returns:
-        str: extension without period
-    """
-    return path.splitext(source)[1][1:]
-
-
-def read_file(path):
-    """Open file and return loaded text."""
-    with open(path, 'r') as f_obj:
-        diff = f_obj.read()
-    return diff
+from gendiff.parsers import parser
 
 
 def get_diff(source1, source2):
@@ -36,7 +13,7 @@ def get_diff(source1, source2):
         source2 (dict): source (dict)
 
     Returns:
-        str: difference dict {(diff, key): value}
+        difference
     """
     difference = []
     all_keys = sorted(source1.keys() | source2.keys())
@@ -59,22 +36,14 @@ def get_diff(source1, source2):
     return difference
 
 
-def generate_diff(file_path1, file_path2, form='stylish'):
+def generate_diff(path1, path2, form='stylish'):
     """Make difference from tow files.
 
     Args:
-        file_path1 (str): path of 1 file
-        file_path2 (str): path of 2 file
+        path1 (str): path to source1
+        path2 (str): path to source2
 
     Returns:
         str: formated difference output
     """
-    parsers = {
-        'json': lambda par: json.loads(read_file(par)),
-        'yaml': lambda par: yaml.safe_load(read_file(par)),
-        'yml': lambda par: yaml.safe_load(read_file(par)),
-    }
-    parsed_data1 = parsers[get_parse_metod(file_path1)](file_path1)
-    parsed_data2 = parsers[get_parse_metod(file_path2)](file_path2)
-
-    return get_format(form)(get_diff(parsed_data1, parsed_data2))
+    return make_formatted(form, get_diff(parser(path1), parser(path2)))

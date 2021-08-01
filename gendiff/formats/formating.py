@@ -5,17 +5,18 @@ from gendiff.formats.plain import make_plain
 from gendiff.formats.stylish import make_stylish
 
 
-def get_format(form):
-    """Return the desired formatting function.
+def make_formatted(form, diff):
+    """Return the formatted output.
 
     Args:
         form (str): imput format command
+        diff (diff): input diff
 
     Raises:
         NotImplementedError: raise if format is wrong type
 
     Returns:
-        function: formating function
+        str: formatted output
     """
     if form is None:
         form = 'stylish'
@@ -26,4 +27,4 @@ def get_format(form):
     }
     if form not in formaters.keys():
         raise NotImplementedError('"{0}" is wrong out format type!'.format(form))
-    return formaters[form]
+    return formaters[form](diff)
