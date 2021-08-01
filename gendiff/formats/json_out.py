@@ -1,12 +1,13 @@
 # -*- coding: utf-8 -*-
 """Json out formatter."""
+
 from json import dumps
 
-from gendiff import gendiff
+from gendiff.states import STATES, STATES_TO_JSON
 
 
 def translate_state(in_states):
-    """Moves the state to the desired line
+    """Move the state to the desired line.
 
     Args:
         in_states (dict): Input state
@@ -14,16 +15,9 @@ def translate_state(in_states):
     Returns:
         dict: output state
     """
-    STATES_TO_STR = {
-        'unchanged': 'not_toched',
-        'new': 'new',
-        'old': 'old',
-        'add': 'added',
-        'del': 'removed',
-        'child': 'folded'}
     translated_state = {}
-    for key in STATES_TO_STR:
-        translated_state[in_states[key]] = STATES_TO_STR[key]
+    for key in STATES_TO_JSON:
+        translated_state[in_states[key]] = STATES_TO_JSON[key]
     return translated_state
 
 
@@ -37,7 +31,7 @@ def formatting(difference, parent=None):
     Returns:
         result(dict): output dict
     """
-    states = translate_state(gendiff.STATES)
+    states = translate_state(STATES)
     diffs_dict = {}
     for line in difference:
         state = states[line[0]]

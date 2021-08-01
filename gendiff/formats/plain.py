@@ -1,7 +1,7 @@
 # -*- coding: utf-8 -*-
 """Plain formater fo diffs"""
 
-from gendiff import gendiff
+from gendiff.states import STATES
 
 
 def translate_diff_value(diff_value):
@@ -63,13 +63,13 @@ def generate_plain_string(diffs, forward_line=''):
         key_str = "Property '{0}' was".format(head_str)
         val_str = translate_diff_value(diff_value)
 
-        if state == gendiff.STATES['child']:
+        if state == STATES['child']:
             output_string.append(generate_plain_string(diff_value, head_str))
-        elif state == gendiff.STATES['old']:
+        elif state == STATES['old']:
             next_value_str = translate_diff_value(next(iter_lines)[2])
             output_string.append('{0} updated. From {1} to {2}'.format(key_str, val_str, next_value_str))
-        elif state == gendiff.STATES['add']:
+        elif state == STATES['add']:
             output_string.append('{0} added with value: {1}'.format(key_str, val_str))
-        elif state == gendiff.STATES['del']:
+        elif state == STATES['del']:
             output_string.append('{0} removed'.format(key_str))
     return '\n'.join(output_string)

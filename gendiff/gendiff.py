@@ -6,15 +6,7 @@ from os import path
 import yaml
 
 from gendiff.formats.formating import get_format
-
-STATES = {
-    'unchanged': 'non_touched',
-    'new': 'new',
-    'old': 'old',
-    'add': '+',
-    'del': '-',
-    'child': 'line',
-}
+from gendiff.states import STATES
 
 
 def get_parse_metod(source):

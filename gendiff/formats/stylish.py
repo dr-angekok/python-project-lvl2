@@ -1,21 +1,14 @@
 """Output formated string."""
 
-from gendiff import gendiff
+from gendiff.states import STATES, STATES_TO_STYLISH
 
 IDENT = '    '
 
 
 def translate_state(in_states):
-    STATES_TO_STR = {
-        'unchanged': ' ',
-        'new': '+',
-        'old': '-',
-        'add': '+',
-        'del': '-',
-        'child': ' '}
     translated_state = {}
-    for key in STATES_TO_STR:
-        translated_state[in_states[key]] = STATES_TO_STR[key]
+    for key in STATES_TO_STYLISH:
+        translated_state[in_states[key]] = STATES_TO_STYLISH[key]
     return translated_state
 
 
@@ -59,7 +52,7 @@ def make_stylish(difference, level=0):
     """
     output_str = '{\n'
     paragraph = IDENT * level
-    states = translate_state(gendiff.STATES)
+    states = translate_state(STATES)
 
     for line in difference:
         state = states[line[0]]
