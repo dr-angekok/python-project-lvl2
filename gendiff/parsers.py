@@ -38,6 +38,7 @@ def read_file(path):
         diff = f_obj.read()
     return diff
 
+
 def parser(path):
     """Return readed source.
 
