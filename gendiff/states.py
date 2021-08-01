@@ -7,8 +7,7 @@ STATES = {
     'old': 'old',
     'add': '+',
     'del': '-',
-    'child': 'line',
-    }
+    'child': 'line'}
 
 STATES_TO_JSON = {
     'unchanged': 'not_toched',
@@ -16,8 +15,7 @@ STATES_TO_JSON = {
     'old': 'old',
     'add': 'added',
     'del': 'removed',
-    'child': 'folded',
-    }
+    'child': 'folded'}
 
 STATES_TO_STYLISH = {
     'unchanged': ' ',
@@ -25,5 +23,4 @@ STATES_TO_STYLISH = {
     'old': '-',
     'add': '+',
     'del': '-',
-    'child': ' ',
-    }
+    'child': ' '}
