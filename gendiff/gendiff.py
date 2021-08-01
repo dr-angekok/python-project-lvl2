@@ -2,12 +2,10 @@
 
 import json
 from os import path
-from gendiff.formats.stylish import make_stylish
-from gendiff.formats.plain import make_plain
-from gendiff.formats.json_out import make_json_out
 
 import yaml
 
+from gendiff.formats.formating import get_format
 
 STATES = {
     'unchanged': 'non_touched',
@@ -32,7 +30,7 @@ def get_parse_metod(source):
 
 
 def read_file(path):
-    """Open file and return loaded text"""
+    """Open file and return loaded text."""
     with open(path, 'r') as f_obj:
         diff = f_obj.read()
     return diff
@@ -62,7 +60,7 @@ def get_diff(source1, source2):
         elif key not in source2:
             difference.append((STATES['del'], key, value1))
         elif isinstance(value1, dict) and isinstance(value2, dict):
-            difference.append((STATES['child'], key, get_diff(value1, value2)))  # noqa E501
+            difference.append((STATES['child'], key, get_diff(value1, value2)))
         else:
             difference.append((STATES['old'], key, value1))
             difference.append((STATES['new'], key, value2))
@@ -82,19 +80,9 @@ def generate_diff(file_path1, file_path2, form='stylish'):
     parsers = {
         'json': lambda par: json.loads(read_file(par)),
         'yaml': lambda par: yaml.safe_load(read_file(par)),
-        'yml': lambda par: yaml.safe_load(read_file(par))
+        'yml': lambda par: yaml.safe_load(read_file(par)),
     }
     parsed_data1 = parsers[get_parse_metod(file_path1)](file_path1)
     parsed_data2 = parsers[get_parse_metod(file_path2)](file_path2)
 
-    if form is None:
-        form = 'stylish'
-    formaters = {
-        'stylish': make_stylish,
-        'plain': make_plain,
-        'json': make_json_out,
-    }
-    if form not in formaters.keys():
-        raise NotImplementedError('"{0}" is wrong out format type!'.format(form))
-
-    return formaters[form](get_diff(parsed_data1, parsed_data2))
+    return get_format(form)(get_diff(parsed_data1, parsed_data2))
