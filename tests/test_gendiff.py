@@ -1,44 +1,32 @@
 # -*- coding:utf-8 -*-
 """Users tests."""
 import json
-from os import popen
 
 import pytest
+from gendiff import generate_diff
 
 
-def simple_out():
-    with open('tests/fixtures/json_out.txt', 'r') as file:
+def make_path(file):
+    PATH = 'tests/fixtures/'
+    return '{0}{1}'.format(PATH, file)
+
+
+def read_out_exs(filename):
+    with open(make_path(filename), 'r') as file:
         out = file.read()
     return str(out)
 
 
-def complex_out():
-    with open('tests/fixtures/grand_out.txt', 'r') as file:
-        out = file.read()
-    return str(out)
-
-
-def plain_out():
-    with open('tests/fixtures/plain_out.txt', 'r') as file:
-        out = file.read()
-    return str(out)
-
-
-def json_out():
-    with open('tests/fixtures/json_format_out.txt', 'r') as file:
-        out = file.read()
-    return str(out)
-
-
-@pytest.mark.parametrize("file1,file2,param,expected", [
-    ('tests/fixtures/file1.yaml', 'tests/fixtures/file2.yaml', '', simple_out()),
-    ('tests/fixtures/grand_file1.yaml', 'tests/fixtures/grand_file2.yaml', '', complex_out()),
-    ('tests/fixtures/grand_file1.json', 'tests/fixtures/grand_file2.json', '-f plain', plain_out())])
-def test_with_cli(file1, file2, param, expected):
-    result = str(popen('poetry run gendiff {0} {1} {2}'.format(file1, file2, param)).read())
+@pytest.mark.parametrize("file1,file2,param,exs", [
+    ('file1.yaml', 'file2.yaml', 'stylish', 'json_out.txt'),
+    ('grand_file1.yaml', 'grand_file2.yaml', 'stylish', 'grand_out.txt'),
+    ('grand_file1.json', 'grand_file2.json', 'plain', 'plain_out.txt')])
+def test_generate_diff(file1, file2, param, exs):
+    expected = read_out_exs(exs)
+    result = generate_diff(make_path(file1), make_path(file2), param)
     assert result == expected
 
 
 def test_json_out():
-    result = str(popen('poetry run gendiff tests/fixtures/grand_file1.json tests/fixtures/grand_file2.json -f json').read())
-    assert json.loads(result) == json.loads(json_out())
+    result = generate_diff(make_path('grand_file1.json'), make_path('grand_file2.json'), 'json')
+    assert json.loads(result) == json.loads(read_out_exs('json_format_out.txt'))
