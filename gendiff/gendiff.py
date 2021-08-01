@@ -31,7 +31,7 @@ def get_parse_metod(source):
     return path.splitext(source)[1][1:]
 
 
-def open_file(path):
+def read_file(path):
     """Open file and return loaded text"""
     with open(path, 'r') as f_obj:
         diff = f_obj.read()
@@ -80,9 +80,9 @@ def generate_diff(file_path1, file_path2, form='stylish'):
         str: formated difference output
     """
     parsers = {
-        'json': lambda par: json.loads(open_file(par)),
-        'yaml': lambda par: yaml.safe_load(open_file(par)),
-        'yml': lambda par: yaml.safe_load(open_file(par))
+        'json': lambda par: json.loads(read_file(par)),
+        'yaml': lambda par: yaml.safe_load(read_file(par)),
+        'yml': lambda par: yaml.safe_load(read_file(par))
     }
     parsed_data1 = parsers[get_parse_metod(file_path1)](file_path1)
     parsed_data2 = parsers[get_parse_metod(file_path2)](file_path2)
