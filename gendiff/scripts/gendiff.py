@@ -1,8 +1,8 @@
 #!/usr/bin/env python3
 """Diff make programm."""
 
-from gendiff.cli import parse_args
 from gendiff import generate_diff
+from gendiff.cli import parse_args
 
 
 def main():
