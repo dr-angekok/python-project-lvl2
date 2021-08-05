@@ -18,8 +18,6 @@ def make_formatted(form, diff):
     Returns:
         str: formatted output
     """
-    if form is None:
-        form = 'stylish'
     formaters = {
         'stylish': make_stylish,
         'plain': make_plain,

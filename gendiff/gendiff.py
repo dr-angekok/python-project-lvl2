@@ -66,7 +66,7 @@ def get_diff(source1, source2):
     return difference
 
 
-def generate_diff(path1, path2, form):
+def generate_diff(path1, path2, form='stylish'):
     """Make difference from tow files.
 
     Args:
