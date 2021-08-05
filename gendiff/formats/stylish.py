@@ -58,9 +58,9 @@ def make_stylish(difference, level=0):
     Returns:
         str: Plain format.
     """
-    output_str = '{\n'
     paragraph = IDENT * level
     states = match_flags(INTERNAL_STRUCTURE_FLAGS)
+    output_string = ['{\n']
 
     for line in difference:
         state = states[line[0]]
@@ -70,10 +70,10 @@ def make_stylish(difference, level=0):
             next_string = make_stylish(diff_value, level + 1)
         else:
             next_string = make_stilish_node(diff_value, paragraph + IDENT)
-        output_str += '{0}  {1} {2}: {3}\n'.format(
+        output_string.append('{0}  {1} {2}: {3}\n'.format(
             paragraph,
             state,
             key,
-            next_string)
-    output_str += '{0}}}'.format(paragraph)
-    return output_str
+            next_string))
+    output_string.append('{0}}}'.format(paragraph))
+    return ''.join(output_string)
