@@ -6,6 +6,25 @@
 
 This is a hexlet training course project
 
+The gendiff package compares two sources (files) and displays the difference between them in several format options to the console.
+At the moment there are 3 formatters implemented, the use is demonstrated below.
+
+Requirements:
+
+python = "^3.8"
+
+poetry>=0.12
+
+Installation:
+
+1. git clone https://github.com/dr-angekok/python-project-lvl2
+
+2. make install
+
+3. make build
+
+4. make package-install
+
 demo of gendiff to compare two flat .json
 [![asciicast](https://asciinema.org/a/eFD1iLgf92pkszpCPfZtWpeBc.svg)](https://asciinema.org/a/eFD1iLgf92pkszpCPfZtWpeBc)
 
