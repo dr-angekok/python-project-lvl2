@@ -31,16 +31,16 @@ def make_stilish_node(diff_val, paragraph):
         str: formatted string
     """
     if isinstance(diff_val, dict):
-        string = '{\n'
+        string = ['{\n']
         for key, key_value in diff_val.items():
-            string += '{0}{1}{2}: {3}\n'.format(
+            string.append('{0}{1}{2}: {3}\n'.format(
                 IDENT,
                 paragraph,
                 key,
                 make_stilish_node(key_value, paragraph + IDENT),
-            )
-        string += '{0}}}'.format(paragraph)
-        return string
+            ))
+        string.append('{0}}}'.format(paragraph))
+        return ''.join(string)
     if isinstance(diff_val, bool):
         return 'true' if diff_val else 'false'
     if diff_val is None:
