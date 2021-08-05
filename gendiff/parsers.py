@@ -1,51 +1,23 @@
 """Read sourse module."""
 
 import json
-from os import path
 
 import yaml
 
 
-def get_parse_metod(source):
-    """Get parse metod.
+def parser(input_data, type_of_data):
+    """Parse input_data from a specific format into a dict.
 
     Args:
-        source (str): path to the file o other source
+        input_data (some format): input data
+        type_of_data (str): input data format
 
     Returns:
-        str: extension without period
+        [type]: [description]
     """
     parsers = {
-        'json': lambda par: json.loads(read_file(par)),
-        'yaml': lambda par: yaml.safe_load(read_file(par)),
-        'yml': lambda par: yaml.safe_load(read_file(par)),
+        'json': json.loads,
+        'yaml': yaml.safe_load,
+        'yml': yaml.safe_load,
     }
-
-    extension = path.splitext(source)[1][1:]
-    return parsers[extension]
-
-
-def read_file(path):
-    """Open file and return loaded text.
-
-    Args:
-        path (str): path to the file
-
-    Returns:
-        file: readed file
-    """
-    with open(path, 'r') as f_obj:
-        diff = f_obj.read()
-    return diff
-
-
-def parser(path):
-    """Return readed source.
-
-    Args:
-        path (str): path to sourse
-
-    Returns:
-        data: readed data
-    """
-    return get_parse_metod(path)(path)
+    return parsers[type_of_data](input_data)

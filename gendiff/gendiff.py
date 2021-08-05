@@ -1,8 +1,38 @@
 """File diff make programm."""
 
+from os import path
+
 from gendiff.formats.formating import make_formatted
-from gendiff.states import STATES
 from gendiff.parsers import parser
+from gendiff.states import STATES
+
+
+def extension_check(extension, extensions):
+    """Raise an error if there is no extension in the list of extensions.
+
+    Args:
+        extension (str): [description]
+        extensions (str): [description]
+
+    Raises:
+        NotImplementedError: Raises if the extension is not in list.
+    """
+    if extension not in extensions:
+        raise NotImplementedError('"{0}" is wrong input format type!'.format(extension))
+
+
+def read_file(path):
+    """Open file and return loaded data.
+
+    Args:
+        path (str): path to the file
+
+    Returns:
+        file: readed file
+    """
+    with open(path, 'r') as f_obj:
+        readed_file = f_obj.read()
+    return readed_file
 
 
 def get_diff(source1, source2):
@@ -46,4 +76,18 @@ def generate_diff(path1, path2, form='stylish'):
     Returns:
         str: formated difference output
     """
-    return make_formatted(form, get_diff(parser(path1), parser(path2)))
+    readers = {
+        'json': read_file,
+        'yaml': read_file,
+        'yml': read_file,
+    }
+    extension1 = path.splitext(path1)[1][1:]
+    extension2 = path.splitext(path2)[1][1:]
+
+    extension_check(extension1, readers.keys())
+    extension_check(extension2, readers.keys())
+
+    data1 = readers[extension1](path1)
+    data2 = readers[extension2](path2)
+
+    return make_formatted(form, get_diff(parser(data1, extension1), parser(data2, extension2)))
