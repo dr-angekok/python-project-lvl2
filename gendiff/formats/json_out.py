@@ -6,7 +6,7 @@ from json import dumps
 from gendiff.flags import INTERNAL_STRUCTURE_FLAGS, JSON_FLAGS
 
 
-def translate_state(in_flags):
+def match_flags(in_flags):
     """Move the flags to the desired line.
 
     Args:
@@ -31,7 +31,7 @@ def formatting(difference, parent=None):
     Returns:
         result(dict): output dict
     """
-    states = translate_state(INTERNAL_STRUCTURE_FLAGS)
+    states = match_flags(INTERNAL_STRUCTURE_FLAGS)
     diffs_dict = {}
     for line in difference:
         state = states[line[0]]

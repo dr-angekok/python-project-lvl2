@@ -5,7 +5,7 @@ from gendiff.flags import INTERNAL_STRUCTURE_FLAGS, STYLISH_FLAGS
 IDENT = '    '
 
 
-def translate_state(in_flags):
+def match_flags(in_flags):
     """Move the flags to the desired line.
 
     Args:
@@ -60,7 +60,7 @@ def make_stylish(difference, level=0):
     """
     output_str = '{\n'
     paragraph = IDENT * level
-    states = translate_state(INTERNAL_STRUCTURE_FLAGS)
+    states = match_flags(INTERNAL_STRUCTURE_FLAGS)
 
     for line in difference:
         state = states[line[0]]
