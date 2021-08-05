@@ -1,14 +1,22 @@
 """Output formated string."""
 
-from gendiff.states import STATES, STATES_TO_STYLISH
+from gendiff.flags import INTERNAL_STRUCTURE_FLAGS, STYLISH_FLAGS
 
 IDENT = '    '
 
 
-def translate_state(in_states):
+def translate_state(in_flags):
+    """Move the flags to the desired line.
+
+    Args:
+        in_flags (dict): Input state
+
+    Returns:
+        dict: output state
+    """
     translated_state = {}
-    for key in STATES_TO_STYLISH:
-        translated_state[in_states[key]] = STATES_TO_STYLISH[key]
+    for key in STYLISH_FLAGS:
+        translated_state[in_flags[key]] = STYLISH_FLAGS[key]
     return translated_state
 
 
@@ -52,7 +60,7 @@ def make_stylish(difference, level=0):
     """
     output_str = '{\n'
     paragraph = IDENT * level
-    states = translate_state(STATES)
+    states = translate_state(INTERNAL_STRUCTURE_FLAGS)
 
     for line in difference:
         state = states[line[0]]

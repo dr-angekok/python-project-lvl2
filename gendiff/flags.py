@@ -1,7 +1,7 @@
 """State of internal structure."""
 
 
-STATES = {
+INTERNAL_STRUCTURE_FLAGS = {
     'unchanged': 'non_touched',
     'new': 'new',
     'old': 'old',
@@ -9,7 +9,7 @@ STATES = {
     'del': '-',
     'child': 'line'}
 
-STATES_TO_JSON = {
+JSON_FLAGS = {
     'unchanged': 'not_toched',
     'new': 'new',
     'old': 'old',
@@ -17,7 +17,7 @@ STATES_TO_JSON = {
     'del': 'removed',
     'child': 'folded'}
 
-STATES_TO_STYLISH = {
+STYLISH_FLAGS = {
     'unchanged': ' ',
     'new': '+',
     'old': '-',

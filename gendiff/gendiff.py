@@ -2,9 +2,9 @@
 
 from os import path
 
+from gendiff.flags import INTERNAL_STRUCTURE_FLAGS as FLAGS
 from gendiff.formats.formating import make_formatted
 from gendiff.parsers import parser
-from gendiff.states import STATES
 
 
 def extension_check(extension, extensions):
@@ -53,16 +53,16 @@ def get_diff(source1, source2):
         value2 = source2.get(key)
 
         if value1 == value2:
-            difference.append((STATES['unchanged'], key, value1))
+            difference.append((FLAGS['unchanged'], key, value1))
         elif key not in source1:
-            difference.append((STATES['add'], key, value2))
+            difference.append((FLAGS['add'], key, value2))
         elif key not in source2:
-            difference.append((STATES['del'], key, value1))
+            difference.append((FLAGS['del'], key, value1))
         elif isinstance(value1, dict) and isinstance(value2, dict):
-            difference.append((STATES['child'], key, get_diff(value1, value2)))
+            difference.append((FLAGS['child'], key, get_diff(value1, value2)))
         else:
-            difference.append((STATES['old'], key, value1))
-            difference.append((STATES['new'], key, value2))
+            difference.append((FLAGS['old'], key, value1))
+            difference.append((FLAGS['new'], key, value2))
     return difference
 
 

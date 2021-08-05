@@ -3,21 +3,21 @@
 
 from json import dumps
 
-from gendiff.states import STATES, STATES_TO_JSON
+from gendiff.flags import INTERNAL_STRUCTURE_FLAGS, JSON_FLAGS
 
 
-def translate_state(in_states):
-    """Move the state to the desired line.
+def translate_state(in_flags):
+    """Move the flags to the desired line.
 
     Args:
-        in_states (dict): Input state
+        in_flags (dict): Input state
 
     Returns:
         dict: output state
     """
     translated_state = {}
-    for key in STATES_TO_JSON:
-        translated_state[in_states[key]] = STATES_TO_JSON[key]
+    for key in JSON_FLAGS:
+        translated_state[in_flags[key]] = JSON_FLAGS[key]
     return translated_state
 
 
@@ -31,7 +31,7 @@ def formatting(difference, parent=None):
     Returns:
         result(dict): output dict
     """
-    states = translate_state(STATES)
+    states = translate_state(INTERNAL_STRUCTURE_FLAGS)
     diffs_dict = {}
     for line in difference:
         state = states[line[0]]
